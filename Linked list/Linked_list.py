@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""
+链表基础类实现 包括单节点类 单向链表类 单向循环链表类 双向节点类 双向链表类  双向循环链表类
+"""
 
 
 class SingleListNode(object):
@@ -281,21 +284,3 @@ class DoubleCircleLinkedList(SingleCircleLinkedList):
                     cur.next.pre = cur.pre
                     cur.pre.next = cur.nex
                 cur = cur.next
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
