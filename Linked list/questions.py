@@ -110,7 +110,7 @@ class Solution3(object):
         tmp = linked_list
         l_pp = []
         while tmp:
-            l_pp.append(tmp.val)
+            l_pp.append(str(tmp.val))
             tmp = tmp.next
         print("-".join(l_pp))
 
@@ -260,34 +260,135 @@ class Solution3(object):
             cur.next = ListNode(1)
         return sum_head.next
 
+    # 排序链表 在O(nlog n)的时间复杂度和常数级空间复杂度下 对链表进行排序
+    # 使用递归的思想 用快慢指针将原始链表分成两部分  这两部分调用递归函数 将各自的子链表合并起来
+    def sortList(self, head: ListNode) -> ListNode:
+        if head is None or head.next is None:
+            return head
+        slow = head
+        fast = head
+        while fast.next.next is not None or slow.next is not None:
+            fast = fast.next
+            slow = slow.next
+        mid = slow.next
+        slow.next = None
+        left_head = self.sortList(head)
+        right_head = self.sortList(mid)
+        return self.merge(left_head, right_head)
 
+    def merge(self, head1, head2):
+        if head1 is None:
+            return head2
+        if head2 is None:
+            return head1
+        if head1.val <= head2.val:
+            head1.next = self.merge(head1.next, head2)
+            return head1
+        else:
+            head2.next = self.merge(head1, head2.next)
+            return head2
 
+    # 删除链表中的节点
+    def remove_element(self, head, node):
+        if not head:
+            return
+        if head and head.val == node.val:
+            head = head.next
+        headNode = head
+        while head.next is not None:
+            if head.next.val == node.val:
+                head.next = head.next.next
+            else:
+                head = head.next
+        return headNode
 
+    # 奇偶数组  将所有的奇数节点和偶数节点分别排在一起
+    def odd_even_list(self, pHead):
+        if pHead is None or  pHead.next is None:
+            return None
 
+        even = pHead.next
+        cur_odd = pHead
+        cur_even = pHead.next
+        while cur_odd is not None and cur_even is not None:
+            cur_odd.next = cur_even.next
+            cur_even.next = cur_even.next.next if cur_even.next is not None else None
+            if cur_odd.next is not None:
+                cur_odd = cur_odd.next
+            else:
+                break
+            cur_even = cur_even.next
+        cur_odd.next = even
+        return pHead
 
+    # 判断一个链表是不是回文链表
+    def isPalindrome(self, phead):
+        if phead is None or phead.next is None:
+            return True
+        fast, slow = phead, phead
+        last = None
+        while fast is not None and fast.next is not None:
+            slow.next = last
+            last = slow
+            fast = fast.next.next
+            slow = slow.next
+        if fast is not None:
+            slow = slow.next
+        while slow is not None and last is not None and slow.val == last.val:
+            slow = slow.next
+            last = last.next
+        return slow is None
 
+    def mergetwosortedlist(self, l1, l2):
+        """合并有序链表"""
+        if l1 is None:
+            return l2
+        if l2 is None:
+            return l1
 
+        new_head = ListNode(-1)
+        cur = new_head
+        cur1 = l1
+        cur2 = l2
+        while cur1 is not None and cur2 is not None:
+            if cur1.val <= cur2.val:
+                cur.next = ListNode(cur1.val)
+                cur1 = cur1.next
+            else:
+                cur.next = ListNode(cur2.val)
+                cur2 = cur2.next
+            cur = cur.next
+        if cur1 is not None:
+            cur.next = cur1
+        if cur2 is not None:
+            cur.next = cur2
+        return new_head.next
 
-
-
-
-
-
-
-
-
-
+    def merge2lists(self, left, right):
+        if not left:
+            return right
+        if not right:
+            return left
+        if left.val <= right.val:
+            left.next = self.merge2lists(left.next, right)
+            return left
+        else:
+            right.next = self.merge2lists(left, right.next)
+            return right
 
 
 if __name__ == "__main__":
 
-    s2 = Solution2()
-    linked2 = s2.create_linked_list([1,2,2,3,3,4,5])
-    # s2.print(linked2)
-    link2 = s2.delete_duplication1(linked2)
-    s2.print(link2)
-    # s3 = Solution3()
-    # linked = s3.create_linked_list(range(1,5))
+    # s2 = Solution2()
+    # linked2 = s2.create_linked_list([1,2,2,3,3,4,5])
+    # # s2.print(linked2)
+    # link2 = s2.delete_duplication1(linked2)
+    # s2.print(link2)
+    s3 = Solution3()
+    link1 = s3.create_linked_list([1, 2, 5])
+    link2 = s3.create_linked_list([1, 3, 4, 6])
+    l = s3.merge2lists(link1, link2)
+    s3.print(l)
     # s.print(linked)
     # rever1 = s.reverse_linked1(linked)
     # s.print(rever1)
