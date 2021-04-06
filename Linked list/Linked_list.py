@@ -284,3 +284,42 @@ class DoubleCircleLinkedList(SingleCircleLinkedList):
                     cur.next.pre = cur.pre
                     cur.pre.next = cur.nex
                 cur = cur.next
+
+
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+
+#
+# 代码中的类名、方法名、参数名已经指定，请勿修改，直接返回方法规定的值即可
+#
+#
+# @param pHead ListNode类
+# @param k int整型
+# @return ListNode类
+#
+class Solution:
+    def FindKthToTail(self, pHead, k):
+        # write code here
+        l_node = []
+        l_node.append(pHead)
+        while pHead.next is not None:
+            pHead = pHead.next
+            l_node.append(pHead)
+        print(l_node)
+        if len(l_node) < k and k > 0:
+            return None
+        return l_node[-k:-k + 1]
+
+
+if __name__ == "__main__":
+    s = Solution()
+    pHead0 = ListNode(0)
+    pHead1 = ListNode(1)
+    pHead2 = ListNode(2)
+    pHead1.next = pHead2
+    pHead0.next = pHead1
+
+    s.FindKthToTail(pHead0, 2)
