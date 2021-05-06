@@ -75,9 +75,9 @@ class Solution2(object):
             return []
         ans = []
         for i in range(0, len(nums)):
-            self.Q.append(nums[i])
+            self.push(nums[i])
             if i < k - 1:
                 continue
             ans.append(self.Q[0])
-            self.Q.pop(nums[i-k+1])
+            self.pop(nums[i-k+1])
         return ans
