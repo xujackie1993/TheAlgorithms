@@ -14,12 +14,12 @@ class Solution(object):
         self.ans = False
 
     # 深度优先 DFS
-    def hasPathSumDFS(self, root, sum):
+    def hasPathSumDFS(self, root, target):
         if not root:
             return False
         if not root.left and not root.left:
-            return root.val == sum
-        return self.hasPathSumDFS(root.left, sum-root.val) or self.hasPathSumDFS(root.right, sum-root.val)
+            return root.val == target
+        return self.hasPathSumDFS(root.left, target-root.val) or self.hasPathSumDFS(root.right, target-root.val)
 
 
     def preOrder(self, root, sum, target):
@@ -34,10 +34,28 @@ class Solution(object):
         self.preOrder(root.right, sum, target)
 
 
-
     def hasPathSumBackTrace(self, root, target):
+        """
+        回溯指 利用 DFS 找出从根节点到叶子节点的所有路径，只要有任意一条路径的 和 等于 sum，就返回 True。
+        :param root:
+        :param target:
+        :return:
+        """
         self.preOrder(root, 0, target)
         return self.ans
 
+    def hasPathSumBFS(self, pRoot, target):
+        if not pRoot:
+            return False
+        arr = [(pRoot, pRoot.val)]
+        while arr:
+            node, path = arr.pop(0)
+            if not node.left and not node.right and path == target:
+                return True
+            if node.left:
+                arr.append((node.left, path + node.left.val))
+            if node.right:
+                arr.append((node.right, path + node.right.val))
+        return False
 
 

@@ -3,7 +3,7 @@
 
 class Solution(object):
 
-    def fish_eat(fishSize, fishDirection):
+    def fish_eat(self, fishSize, fishDirection):
         fishNumber = len(fishSize)
         if fishNumber <= 1:
             return fishNumber
